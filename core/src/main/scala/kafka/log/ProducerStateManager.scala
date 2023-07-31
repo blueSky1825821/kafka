@@ -122,6 +122,7 @@ private[log] class ProducerStateEntry(val producerId: Long,
   }
 
   private def addBatchMetadata(batch: BatchMetadata): Unit = {
+    //只能缓存5条请求 可能是批量 max.in.flight.requests.per.connection 生产者控制
     if (batchMetadata.size == ProducerStateEntry.NumBatchesToRetain)
       batchMetadata.dequeue()
     batchMetadata.enqueue(batch)
